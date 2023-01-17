@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Pressable,
   SafeAreaView,
@@ -11,34 +11,105 @@ import {
 import Categories from "../components/categories/Categories";
 import ComingSoonList from "../components/comingsoon/ComingSoonList";
 import NowShowingList from "../components/nowshowing/NowShowingList";
+import SearchResult from "../components/search/SearchResult";
 import SectionTitle from "../components/SectionTitle";
 import Title from "../components/Title";
 import Colors from "../constants/Colors";
 
-type Props = {
-  navigation: () => void;
-};
-
 const HomeScreen = () => {
-  const [text, onChangeText] = useState<string>("");
+  const [text, setText] = useState<string>("");
+  const [genre, setGenre] = useState();
+  const [now, setNow] = useState();
+  const [coming, setComing] = useState();
+  const [search, setSearch] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const baseURL = "https://api.themoviedb.org/3";
+      const getCurrentYear = new Date().getFullYear();
+      const getCurrentMonth = new Date().getMonth() + 1;
+      const getCurrentOtherMonth = new Date().getMonth() + 2;
+      const getDate = new Date().getDate();
+
+      const genreUrl = `${baseURL}/genre/movie/list?api_key=d432b933ecc6d5642d8d2befbc40c7ac&language=en-US`;
+      const nowUrl = `${baseURL}/discover/movie?api_key=d432b933ecc6d5642d8d2befbc40c7ac&primary_release_date.gte=${getCurrentYear}-0${getCurrentMonth}-01&primary_release_date.lte=${getCurrentYear}-0${getCurrentMonth}-${getDate}`;
+      const comingSoonUrl = `${baseURL}/discover/movie?api_key=d432b933ecc6d5642d8d2befbc40c7ac&primary_release_date.gte=${getCurrentYear}-0${getCurrentOtherMonth}-01&primary_release_date.lte=${getCurrentYear}-0${getCurrentOtherMonth}-${getDate}`;
+
+      const genreResponse = await fetch(genreUrl);
+      const genreData = await genreResponse.json();
+
+      const nowResponse = await fetch(nowUrl);
+      const nowData = await nowResponse.json();
+
+      const comingSoonResponse = await fetch(comingSoonUrl);
+      const comingData = await comingSoonResponse.json();
+
+      const sortedDates = nowData.results
+        ?.map((obj: any) => {
+          return { ...obj, date: new Date(obj.release_date) };
+        })
+        .sort((a, b) => b.date - a.date);
+
+      const sortedDatesComing = comingData.results
+        ?.map((obj: any) => {
+          const getCurrentDate = new Date().getDate();
+          const getDate = new Date(obj.release_date);
+
+          if (getDate.getDate() >= getCurrentDate) {
+            console.log(obj);
+          }
+
+          return { ...obj, date: new Date(obj.release_date) };
+        })
+        .sort((a, b) => a.date - b.date);
+
+      setGenre(genreData.genres);
+      setNow(sortedDates);
+      setComing(sortedDatesComing);
+    };
+
+    const fetchSearch = async () => {
+      const baseURL = "https://api.themoviedb.org/3";
+      const searchUrl = `${baseURL}/search/movie?api_key=d432b933ecc6d5642d8d2befbc40c7ac&language=en-US&page=1&include_adult=false&query=${text}`;
+
+      const searchResponse = await fetch(searchUrl);
+      const searchData = await searchResponse.json();
+      setSearch(searchData.results);
+    };
+
+    if (text) {
+      fetchSearch();
+    } else {
+      fetchData();
+      setSearch(null);
+    }
+  }, [text]);
+
+  const handleSearch = async (text) => {
+    setText(text);
+  };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
-        <ScrollView>
-          <Title>Movies</Title>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder="Search..."
-          />
-          <Categories />
-          <SectionTitle title="Now Showing" />
-          <NowShowingList />
-          <SectionTitle title="Coming Soon" />
-          <ComingSoonList />
-        </ScrollView>
+        <Title>Movies</Title>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => handleSearch(text)}
+          value={text}
+          placeholder="Search..."
+        />
+        {search ? (
+          <SearchResult search={search} />
+        ) : (
+          <>
+            <Categories genre={genre} />
+            <SectionTitle title="Now Showing" />
+            <NowShowingList now={now} />
+            <SectionTitle title="Coming Soon" />
+            <ComingSoonList coming={coming} />
+          </>
+        )}
       </View>
     </SafeAreaView>
   );

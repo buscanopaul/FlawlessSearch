@@ -1,13 +1,25 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-type Props = {};
+type Props = {
+  title: string;
+  release_date: string;
+  popularity: number;
+  vote_average: number;
+};
 
-const MovieAttributes = (props: Props) => {
+const MovieAttributes = ({
+  title,
+  release_date,
+  popularity,
+  vote_average,
+}: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.category}>Adventure Sci-fi 1h 52 min</Text>
-      <Text style={styles.title}>Sonic The Headgehog 2</Text>
+      <Text
+        style={styles.category}
+      >{`${vote_average} Star Average \u2022 ${popularity} \u2022 ${release_date}`}</Text>
+      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };

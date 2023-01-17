@@ -19,7 +19,7 @@ type Props = {
   item: Data;
 };
 
-const NowshowingItem = ({ item }: Props) => {
+const SearchItem = ({ item }: Props) => {
   const navigation = useNavigation();
   const handleDetails = () => {
     navigation.navigate("Details", { props: item, isComing: false });
@@ -46,11 +46,12 @@ const NowshowingItem = ({ item }: Props) => {
   );
 };
 
-export default NowshowingItem;
+export default SearchItem;
 
 const styles = StyleSheet.create({
   container: {
     marginRight: 20,
+    marginBottom: 30,
   },
   pressed: {
     opacity: 0.75,

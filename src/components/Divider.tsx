@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.lightgray,
+    borderBottomColor: "gray",
     marginHorizontal: 20,
     marginBottom: 10,
   },

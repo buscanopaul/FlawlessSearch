@@ -15,14 +15,29 @@ import Divider from "../components/Divider";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 
-type Props = {};
+interface Data {
+  id: number;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  vote_average: number;
+  vote_count: number;
+  backdrop_path: string;
+}
 
-const image = {
-  uri: "https://wallpapercave.com/wp/wp10941817.jpg",
+type Props = {
+  item: Data;
 };
 
-const DetailScreen = (props: Props) => {
+const DetailScreen = ({ route }: Props) => {
   const navigation = useNavigation();
+  const { props, isComing } = route.params;
+
+  const image = {
+    uri: `https://image.tmdb.org/t/p/original${props.backdrop_path}`,
+  };
 
   const handleBack = () => {
     navigation.pop();
@@ -47,15 +62,22 @@ const DetailScreen = (props: Props) => {
                 justifyContent: "flex-end",
               }}
             >
-              <MovieAttributes />
+              <MovieAttributes
+                title={props.title}
+                release_date={props.release_date}
+                popularity={props.popularity}
+                vote_average={props.vote_average}
+              />
             </LinearGradient>
           </SafeAreaView>
         </ImageBackground>
         <Pressable style={styles.buy}>
-          <Text style={styles.buyTitle}>Buy Tickets</Text>
+          <Text style={styles.buyTitle}>
+            {isComing ? `Wishlist` : `Buy Tickets`}
+          </Text>
         </Pressable>
         <Divider />
-        <MovieDescription />
+        <MovieDescription description={props.overview} />
       </ScrollView>
     </View>
   );

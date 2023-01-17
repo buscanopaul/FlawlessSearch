@@ -3,20 +3,26 @@ import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Colors from "../../constants/Colors";
 
-interface showingData {
-  id: string;
+interface Data {
+  id: number;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
   title: string;
+  vote_average: number;
+  vote_count: number;
+  backdrop_path: string;
 }
 
 type Props = {
-  item: showingData;
-  navigation: () => void;
+  item: Data;
 };
 
 const ComingSoonItem = ({ item }: Props) => {
   const navigation = useNavigation();
   const handleDetails = () => {
-    navigation.navigate("Details");
+    navigation.navigate("Details", { props: item, isComing: true });
   };
 
   return (
@@ -29,11 +35,13 @@ const ComingSoonItem = ({ item }: Props) => {
       <Image
         style={styles.cover}
         source={{
-          uri: "https://static-cse.canva.com/blob/931447/1131w-jpUdye0-K50.jpg",
+          uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
         }}
       />
       <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.subtitle}>{item.id}</Text>
+      <Text style={styles.subtitle}>
+        {`${item.vote_average} \u2022 ${item.popularity} ${item.release_date}`}
+      </Text>
     </Pressable>
   );
 };
@@ -50,12 +58,16 @@ const styles = StyleSheet.create({
   cover: {
     width: 180,
     height: 300,
+    borderRadius: 5,
+    resizeMode: "cover",
+    backgroundColor: "#2473EB",
   },
   title: {
     color: "white",
     fontWeight: "bold",
     fontSize: 15,
-    paddingBottom: 8,
+    paddingVertical: 8,
+    width: 180,
   },
   subtitle: {
     color: Colors.lightgray,

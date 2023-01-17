@@ -1,14 +1,17 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Colors from "../../constants/Colors";
 
 type Props = {
-  title: string;
+  name: string;
+  id: number;
 };
 
-const CategoriesItem = ({ title }: Props) => {
+const CategoriesItem = ({ name, id }: Props) => {
+  const navigation = useNavigation();
   const handleCategory = () => {
-    console.log(title);
+    navigation.navigate("Genre", { name: name, id: id });
   };
 
   return (
@@ -20,7 +23,7 @@ const CategoriesItem = ({ title }: Props) => {
           : styles.categoryContainer
       }
     >
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{name}</Text>
     </Pressable>
   );
 };

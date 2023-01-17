@@ -1,31 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import NowshowingItem from "./NowshowingItem";
 
-type Props = {};
+type Props = {
+  now?: object;
+};
 
-const DATA = [
-  {
-    id: "16",
-    title: "First Item",
-  },
-  {
-    id: "2",
-    title: "Second Item",
-  },
-  {
-    id: "18",
-    title: "Third Item",
-  },
-];
-
-const NowShowingList = (props: Props) => {
+const NowShowingList = ({ now }: Props) => {
   return (
     <FlatList
       style={styles.container}
       showsHorizontalScrollIndicator={false}
       horizontal={true}
-      data={DATA}
+      data={now}
       renderItem={({ item }) => <NowshowingItem item={item} />}
       keyExtractor={(item) => item.id}
     />

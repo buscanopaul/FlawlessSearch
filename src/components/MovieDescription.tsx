@@ -2,18 +2,15 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Colors from "../constants/Colors";
 
-type Props = {};
+type Props = {
+  description: string;
+};
 
-const MovieDescription = (props: Props) => {
+const MovieDescription = ({ description }: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Overview</Text>
-      <Text style={styles.description}>
-        Puss in Boots discovers that his passion for adventure has taken its
-        toll: He has burned through eight of his nine lives, leaving him with
-        only one life left. Puss sets out on an epic journey to find the
-        mythical Last Wish and restore his nine lives.
-      </Text>
+      <Text style={styles.description}>{description}</Text>
     </View>
   );
 };
