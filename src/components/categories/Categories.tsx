@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import React from "react";
+import { FlatList, StyleSheet, View } from "react-native";
 import CategoriesItem from "./CategoriesItem";
 
 interface Data {

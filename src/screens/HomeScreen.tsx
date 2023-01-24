@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
-  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from "react-native";
 import Categories from "../components/categories/Categories";
-import ComingSoonList from "../components/comingsoon/ComingSoonList";
-import NowShowingList from "../components/nowshowing/NowShowingList";
+import MovieList from "../components/movies/MovieList";
 import SearchResult from "../components/search/SearchResult";
 import SectionTitle from "../components/SectionTitle";
 import Title from "../components/Title";
@@ -92,24 +89,26 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
-        <Title>Movies</Title>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => handleSearch(text)}
-          value={text}
-          placeholder="Search..."
-        />
-        {search ? (
-          <SearchResult search={search} />
-        ) : (
-          <>
-            <Categories genre={genre} />
-            <SectionTitle title="Now Showing" />
-            <NowShowingList now={now} />
-            <SectionTitle title="Coming Soon" />
-            <ComingSoonList coming={coming} />
-          </>
-        )}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Title>Movies</Title>
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => handleSearch(text)}
+            value={text}
+            placeholder="Search..."
+          />
+          {search ? (
+            <SearchResult search={search} />
+          ) : (
+            <>
+              <Categories genre={genre} />
+              <SectionTitle title="Now Showing" />
+              <MovieList movie={now} isComing={false} />
+              <SectionTitle title="Coming Soon" />
+              <MovieList movie={coming} isComing={true} />
+            </>
+          )}
+        </ScrollView>
       </View>
     </SafeAreaView>
   );

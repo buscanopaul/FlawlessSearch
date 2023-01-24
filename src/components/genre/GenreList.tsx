@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import GenreItem from "./GenreItem";
+import { FlatList, StyleSheet } from "react-native";
+import MovieListItem from "../movies/MovieListItem";
 
 type Props = {
   id: number;
@@ -28,7 +28,7 @@ const GenreList = ({ id }: Props) => {
       style={styles.container}
       numColumns={2}
       data={genre}
-      renderItem={({ item }) => <GenreItem item={item} />}
+      renderItem={({ item }) => <MovieListItem item={item} isComing={false} />}
       keyExtractor={(item) => item.id}
     />
   );

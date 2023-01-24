@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import SearchItem from "./SearchItem";
+import MovieListItem from "../movies/MovieListItem";
 
 type Props = {
   search?: object;
@@ -15,7 +15,7 @@ const SearchResult = ({ search }: Props) => {
           style={styles.container}
           numColumns={2}
           data={search}
-          renderItem={({ item }) => <SearchItem item={item} />}
+          renderItem={({ item }) => <MovieListItem item={item} />}
           keyExtractor={(item) => item.id}
         />
       ) : (

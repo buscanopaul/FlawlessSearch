@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import GenreList from "../components/genre/GenreList";
 import SectionTitle from "../components/SectionTitle";
 import Colors from "../constants/Colors";

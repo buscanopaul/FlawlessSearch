@@ -1,3 +1,6 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
   ImageBackground,
@@ -8,12 +11,9 @@ import {
   Text,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Divider from "../components/Divider";
 import MovieAttributes from "../components/MovieAttributes";
 import MovieDescription from "../components/MovieDescription";
-import Divider from "../components/Divider";
-import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
 
 interface Data {
   id: number;

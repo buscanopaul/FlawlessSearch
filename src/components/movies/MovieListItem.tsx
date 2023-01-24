@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
 import Colors from "../../constants/Colors";
 
 interface Data {
@@ -17,12 +17,13 @@ interface Data {
 
 type Props = {
   item: Data;
+  isComing?: boolean;
 };
 
-const GenreItem = ({ item }: Props) => {
+const MovieListItem = ({ item, isComing }: Props) => {
   const navigation = useNavigation();
   const handleDetails = () => {
-    navigation.navigate("Details", { props: item, isComing: false });
+    navigation.navigate("Details", { props: item, isComing: isComing });
   };
 
   return (
@@ -40,18 +41,20 @@ const GenreItem = ({ item }: Props) => {
       />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.subtitle}>
-        {`${item.vote_average} \u2022 ${item.popularity} ${item.release_date}`}
+        {`${isComing ? `` : `${item.vote_average} \u2022`}${item.popularity} ${
+          item.release_date
+        }`}
       </Text>
     </Pressable>
   );
 };
 
-export default GenreItem;
+export default MovieListItem;
 
 const styles = StyleSheet.create({
   container: {
     marginRight: 20,
-    marginBottom: 30,
+    marginBottom: 50,
   },
   pressed: {
     opacity: 0.75,
