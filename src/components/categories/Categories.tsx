@@ -8,7 +8,7 @@ interface Data {
 }
 
 type Props = {
-  genre?: Data;
+  genre?: Data[];
 };
 
 const Categories = ({ genre }: Props) => {
@@ -21,7 +21,7 @@ const Categories = ({ genre }: Props) => {
         renderItem={({ item }) => (
           <CategoriesItem name={item.name} id={item.id} />
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => item.id.toString()}
       />
     );
   };

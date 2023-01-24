@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import Colors from "../../constants/Colors";
@@ -8,8 +9,12 @@ type Props = {
   id: number;
 };
 
+type RootStackParamList = {
+  Genre: { name: string; id: number };
+};
+
 const CategoriesItem = ({ name, id }: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const handleCategory = () => {
     navigation.navigate("Genre", { name: name, id: id });
   };
