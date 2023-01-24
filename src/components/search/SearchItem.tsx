@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 import Colors from "../../constants/Colors";
@@ -19,10 +20,18 @@ type Props = {
   item: Data;
 };
 
+type RootStackParamList = {
+  Details: { props: Data; isComing?: boolean; isHome: boolean };
+};
+
 const SearchItem = ({ item }: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const handleDetails = () => {
-    navigation.navigate("Details", { props: item, isComing: false });
+    navigation.navigate("Details", {
+      props: item,
+      isComing: false,
+      isHome: true,
+    });
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 import Colors from "../../constants/Colors";
@@ -18,12 +19,21 @@ interface Data {
 type Props = {
   item: Data;
   isComing?: boolean;
+  isHome: boolean;
 };
 
-const MovieListItem = ({ item, isComing }: Props) => {
-  const navigation = useNavigation();
+type RootStackParamList = {
+  Details: { props: Data; isComing?: boolean; isHome: boolean };
+};
+
+const MovieListItem = ({ item, isComing, isHome }: Props) => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const handleDetails = () => {
-    navigation.navigate("Details", { props: item, isComing: isComing });
+    navigation.navigate("Details", {
+      props: item,
+      isComing: isComing,
+      isHome: isHome,
+    });
   };
 
   return (

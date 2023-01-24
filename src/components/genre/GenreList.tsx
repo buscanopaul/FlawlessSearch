@@ -28,7 +28,9 @@ const GenreList = ({ id }: Props) => {
       style={styles.container}
       numColumns={2}
       data={genre}
-      renderItem={({ item }) => <MovieListItem item={item} isComing={false} />}
+      renderItem={({ item }) => (
+        <MovieListItem item={item} isComing={false} isHome={false} />
+      )}
       keyExtractor={(item) => item.id}
     />
   );

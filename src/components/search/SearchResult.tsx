@@ -2,8 +2,20 @@ import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import MovieListItem from "../movies/MovieListItem";
 
+interface Data {
+  id: number;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  vote_average: number;
+  vote_count: number;
+  backdrop_path: string;
+}
+
 type Props = {
-  search?: object;
+  search: Data[];
 };
 
 const SearchResult = ({ search }: Props) => {
@@ -15,8 +27,8 @@ const SearchResult = ({ search }: Props) => {
           style={styles.container}
           numColumns={2}
           data={search}
-          renderItem={({ item }) => <MovieListItem item={item} />}
-          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <MovieListItem item={item} isHome={true} />}
+          keyExtractor={(item, index) => item.id.toString()}
         />
       ) : (
         <Text style={styles.noFound}>No Search Found</Text>

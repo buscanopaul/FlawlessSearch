@@ -1,5 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
@@ -16,31 +18,38 @@ import MovieAttributes from "../components/MovieAttributes";
 import MovieDescription from "../components/MovieDescription";
 
 interface Data {
-  id: number;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
   title: string;
+  release_date: string;
+  popularity: number;
   vote_average: number;
-  vote_count: number;
+  overview: string;
   backdrop_path: string;
 }
 
-type Props = {
-  item: Data;
+type RootStackParamList = {
+  Details: { props: Data; isComing: boolean; isHome: boolean };
 };
 
+type BackStackParamList = {
+  Home: undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, "Details">;
+
 const DetailScreen = ({ route }: Props) => {
-  const navigation = useNavigation();
-  const { props, isComing } = route.params;
+  const navigation = useNavigation<StackNavigationProp<BackStackParamList>>();
+  const { props, isComing, isHome } = route.params;
 
   const image = {
     uri: `https://image.tmdb.org/t/p/original${props.backdrop_path}`,
   };
 
   const handleBack = () => {
-    navigation.pop();
+    if (isHome) {
+      navigation.navigate("Home");
+    } else {
+      navigation.pop();
+    }
   };
 
   return (

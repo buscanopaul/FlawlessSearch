@@ -14,7 +14,7 @@ import Title from "../components/Title";
 import Colors from "../constants/Colors";
 
 const HomeScreen = () => {
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState();
   const [genre, setGenre] = useState();
   const [now, setNow] = useState();
   const [coming, setComing] = useState();
@@ -78,37 +78,35 @@ const HomeScreen = () => {
       fetchSearch();
     } else {
       fetchData();
-      setSearch(null);
+      setSearch(text);
     }
   }, [text]);
 
-  const handleSearch = async (text) => {
+  const handleSearch = async (text: any) => {
     setText(text);
   };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Title>Movies</Title>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => handleSearch(text)}
-            value={text}
-            placeholder="Search..."
-          />
-          {search ? (
-            <SearchResult search={search} />
-          ) : (
-            <>
-              <Categories genre={genre} />
-              <SectionTitle title="Now Showing" />
-              <MovieList movie={now} isComing={false} />
-              <SectionTitle title="Coming Soon" />
-              <MovieList movie={coming} isComing={true} />
-            </>
-          )}
-        </ScrollView>
+        <Title>Movies</Title>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => handleSearch(text)}
+          value={text}
+          placeholder="Search..."
+        />
+        {search ? (
+          <SearchResult search={search} />
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Categories genre={genre} />
+            <SectionTitle title="Now Showing" />
+            <MovieList movie={now} isComing={false} isHome={true} />
+            <SectionTitle title="Coming Soon" />
+            <MovieList movie={coming} isComing={true} isHome={true} />
+          </ScrollView>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -132,5 +130,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginHorizontal: 20,
+    marginBottom: 20,
   },
 });

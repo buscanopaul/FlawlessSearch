@@ -1,17 +1,27 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import GenreList from "../components/genre/GenreList";
 import SectionTitle from "../components/SectionTitle";
 import Colors from "../constants/Colors";
 
-type Props = {};
+type RootStackParamList = {
+  Genre: { name: string; id: number };
+};
 
-const GenreScreen = ({ route }) => {
-  const navigation = useNavigation();
+type BackStackParamList = {
+  Home: undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, "Genre">;
+
+const GenreScreen = ({ route }: Props) => {
+  const navigation = useNavigation<StackNavigationProp<BackStackParamList>>();
   const handleBack = () => {
-    navigation.pop();
+    navigation.navigate("Home");
   };
 
   const { name, id } = route.params;
