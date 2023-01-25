@@ -45,7 +45,7 @@ const HomeScreen = () => {
         ?.map((obj: any) => {
           return { ...obj, date: new Date(obj.release_date) };
         })
-        .sort((a, b) => b.date - a.date);
+        .sort((a: { date: number }, b: { date: number }) => b.date - a.date);
 
       const sortedDatesComing = comingData.results
         ?.map((obj: any) => {
@@ -58,7 +58,7 @@ const HomeScreen = () => {
 
           return { ...obj, date: new Date(obj.release_date) };
         })
-        .sort((a, b) => a.date - b.date);
+        .sort((a: { date: number }, b: { date: number }) => a.date - b.date);
 
       setGenre(genreData.genres);
       setNow(sortedDates);
